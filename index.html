@@ -70,10 +70,8 @@ const cellEls=[];
 for(let i=0;i<64;i++){const d=document.createElement('div');d.className='c';boardEl.appendChild(d);cellEls.push(d)}
 for(let i=0;i<3;i++){const s=document.createElement('div');s.className='slot';s.onpointerdown=e=>start(e,i);trayEl.appendChild(s)}
 function size(){P=(boardEl.clientWidth-8)/N;document.documentElement.style.setProperty('--p',P+'px');render()}
-function rnd(){let sh=S[Math.random()*S.length|0];if(sh.cells.length>=5&&Math.random()<.5)sh=S[Math.random()*S.length|0];return{...sh,color:Math.random()*COLORS.length|0}}
-function cnt(p){let n=0;for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(fits(p,r,c))n++;return n}
-function deal(){let best=null,bs=-1;for(let t=0;t<50;t++){const ps=[rnd(),rnd(),rnd()],cs=ps.map(cnt),sc=cs.reduce((a,c)=>a+Math.min(c,6),0);
-  if(cs.every(c=>c>=3))return ps;if(sc>bs){bs=sc;best=ps}}return best}
+function rnd(){return{...S[Math.random()*S.length|0],color:Math.random()*COLORS.length|0}}
+function deal(){return[rnd(),rnd(),rnd()]}
 function dealAfter(kill){const g0=grid;grid=grid.slice();kill.forEach(k=>grid[k]=-1);const r=deal();grid=g0;return r}
 function newGame(){grid=Array(64).fill(-1);score=0;combo=0;busy=false;pieces=deal();$('#ov').classList.remove('on');resetOv();render()}
 function render(){
